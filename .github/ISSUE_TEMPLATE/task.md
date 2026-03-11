@@ -12,27 +12,12 @@ assignees: ''
 **Description**  
 Briefly describe what needs to be implemented or changed.
 
-**Technical Notes / Constraints**
-- Architectural considerations
-- APIs involved
-- Files/modules impacted
-
 **Context / Link**  
-Related to: US<EPIC_ID>.<STORY_ID>
-
-**Dependencies**  
-- Depends on: <Task IDs or links>  
-- Blocks: <Task IDs or links>
+Related to: *Add User Story Issue link here*
 
 **Implementation Checklist**
 - [ ] Item 1
 - [ ] Item 2
-
-**Task Acceptance / Testing Criteria**
-<!-- Fill these with task-specific, verifiable conditions -->
-- [ ] Primary behavior to verify (manual or automated)
-- [ ] Edge case / failure mode to verify
-- [ ] Regression check (what must remain unaffected)
 
 **Definition of Done**
 - [ ] Code implemented and committed
@@ -44,3 +29,4 @@ Related to: US<EPIC_ID>.<STORY_ID>
 - Links to resources
 - Edge cases
 - Anything helpful for the implementer
+*If nothing applicable, delete this section*

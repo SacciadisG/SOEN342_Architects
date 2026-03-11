@@ -20,6 +20,7 @@ As a <user role>, I want to <clearly defined action>, so that <measurable benefi
 - [ ] TSK<EPIC_ID>.<STORY_ID>.01 – <Atomic, implementable task>
 - [ ] TSK<EPIC_ID>.<STORY_ID>.02 – <Atomic, implementable task>
 - [ ] TSK<EPIC_ID>.<STORY_ID>.03 – <Atomic, implementable task>
+***Replace the TSK<ID><ID> with the Task issue #***
 
 ---
 
