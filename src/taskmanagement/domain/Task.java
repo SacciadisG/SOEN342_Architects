@@ -5,9 +5,10 @@ import taskmanagement.enums.StatusEnum;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.ArrayList;
 
 public class Task {
-    private static Long ID;
+    private static Long ID = 0L;
     private Long taskId;
     private String title;
     private String description;
@@ -27,6 +28,8 @@ public class Task {
         this.dueDate = dueDate;
         this.priority = PriorityEnum.MEDIUM;
         this.status = StatusEnum.OPEN;
+        this.tags = new ArrayList<>();
+        this.subtasks = new ArrayList<>();
     }
     public Task(String title, String description) {
         this.taskId = ID++;
@@ -36,6 +39,8 @@ public class Task {
         this.dueDate = null;
         this.priority = PriorityEnum.MEDIUM;
         this.status = StatusEnum.OPEN;
+        this.tags = new ArrayList<>();
+        this.subtasks = new ArrayList<>();
     }
 
     public Task(String title) {
@@ -46,6 +51,8 @@ public class Task {
         this.dueDate = null;
         this.priority = PriorityEnum.MEDIUM;
         this.status = StatusEnum.OPEN;
+        this.tags = new ArrayList<>();
+        this.subtasks = new ArrayList<>();
     }
 
 
@@ -56,10 +63,6 @@ public class Task {
 
     public void addSubtask(Subtask subtask) {
         subtasks.add(subtask);
-    }
-
-    public Object getTaskProgress() {
-        return null;
     }
     
     public Long getTaskId() {
@@ -116,9 +119,55 @@ public class Task {
         this.status = status;
     }
 
-    public void connectToProject(Project project){this.project = project;}
+    public void addTaskToProject(Project project) {
+        this.project = project;
+    }
 
-    public void disconnectFromProject(){this.project = null;}
+    public void removeTaskFromProject() {
+        this.project = null;
+    }
+
+    public void updateStatus(StatusEnum newStatus) {
+        this.status = newStatus;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void removeTag(Tag tag) {
+        tags.remove(tag);
+    }
+
+    public List<Subtask> getSubtasks() {
+        return subtasks;
+    }
+
+    public void removeSubtask(Subtask subtask) {
+        subtasks.remove(subtask);
+    }
+
+    public void updateDetails(String title, String description, PriorityEnum priority, LocalDate dueDate, StatusEnum status) {
+        if (title != null) this.title = title;
+        if (description != null) this.description = description;
+        if (priority != null) this.priority = priority;
+        if (dueDate != null) this.dueDate = dueDate;
+        if (status != null) this.status = status;
+    }
+
+    public double getTaskProgress() {
+        if (subtasks.isEmpty()) {
+            return 0.0;
+        }
+        long completedCount = subtasks.stream()
+                .filter(s -> s.getStatus() == StatusEnum.COMPLETED)
+                .count();
+        return (double) completedCount / subtasks.size() * 100;
+    }
 }
 
 

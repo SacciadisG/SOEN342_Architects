@@ -1,6 +1,8 @@
-package taskmanagement.cli;
+package taskmanagement.cli.tasks;
 
+import taskmanagement.cli.Command;
 import taskmanagement.controller.SystemController;
+import taskmanagement.domain.Task;
 import java.util.Scanner;
 
 public class CreateTaskCommand implements Command {
@@ -17,8 +19,13 @@ public class CreateTaskCommand implements Command {
         System.out.println("Enter task details:\t [title, description (optional) , due date (optional)]");
         // For brevity, just read a line as 'details' placeholder
         String details = scanner.nextLine();
-        controller.createTask(details);
-        System.out.println("Task created successfully.");
+        Task createdTask = controller.createTask(details);
+        if (createdTask != null) {
+            System.out.println("Task created successfully with ID: " + createdTask.getTaskId());
+            controller.logTaskAction(createdTask.getTaskId(), "Task created");
+        } else {
+            System.out.println("Failed to create task.");
+        }
     }
 
     @Override
