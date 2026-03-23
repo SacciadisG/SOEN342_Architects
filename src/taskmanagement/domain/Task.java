@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class Task {
+    private static Long ID;
     private Long taskId;
     private String title;
     private String description;
@@ -14,25 +15,47 @@ public class Task {
     private LocalDate dueDate;
     private PriorityEnum priority;
     private StatusEnum status;
+    private Project project;
+    private List<Tag> tags;
+    private List<Subtask> subtasks;
 
-    public Task(Long taskId, String title, String description, LocalDate creationDate, 
-                LocalDate dueDate, PriorityEnum priority, StatusEnum status) {
-        this.taskId = taskId;
+    public Task(String title, String description, LocalDate dueDate) {
+        this.taskId = ID++;
         this.title = title;
         this.description = description;
-        this.creationDate = creationDate;
+        creationDate = LocalDate.now();
         this.dueDate = dueDate;
-        this.priority = priority;
-        this.status = status;
+        this.priority = PriorityEnum.MEDIUM;
+        this.status = StatusEnum.OPEN;
+    }
+    public Task(String title, String description) {
+        this.taskId = ID++;
+        this.title = title;
+        this.description = description;
+        creationDate = LocalDate.now();
+        this.dueDate = null;
+        this.priority = PriorityEnum.MEDIUM;
+        this.status = StatusEnum.OPEN;
     }
 
-    public void updateDetails(Object details) {
+    public Task(String title) {
+        this.taskId = ID++;
+        this.title = title;
+        this.description = "";
+        creationDate = LocalDate.now();
+        this.dueDate = null;
+        this.priority = PriorityEnum.MEDIUM;
+        this.status = StatusEnum.OPEN;
     }
+
+
 
     public void addTag(Tag tag) {
+        tags.add(tag);
     }
 
     public void addSubtask(Subtask subtask) {
+        subtasks.add(subtask);
     }
 
     public Object getTaskProgress() {
@@ -79,9 +102,7 @@ public class Task {
         this.dueDate = dueDate;
     }
 
-    public PriorityEnum getPriority() {
-        return priority;
-    }
+    public PriorityEnum getPriority() {return priority;}
 
     public void setPriority(PriorityEnum priority) {
         this.priority = priority;
@@ -94,4 +115,10 @@ public class Task {
     public void setStatus(StatusEnum status) {
         this.status = status;
     }
+
+    public void connectToProject(Project project){this.project = project;}
+
+    public void disconnectFromProject(){this.project = null;}
 }
+
+

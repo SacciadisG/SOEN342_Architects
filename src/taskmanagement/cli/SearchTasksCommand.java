@@ -16,7 +16,10 @@ public class SearchTasksCommand implements Command {
 
     @Override
     public void execute() {
-        System.out.println("Enter search criteria:");
+        System.out.println("""
+                Enter search criteria:
+                (options are "title","range","status","day\")
+                """);
         String criteria = scanner.nextLine();
         List<Task> results = controller.searchTasks(criteria);
         System.out.println("Search Results:");

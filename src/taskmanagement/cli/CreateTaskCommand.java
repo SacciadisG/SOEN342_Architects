@@ -14,7 +14,7 @@ public class CreateTaskCommand implements Command {
 
     @Override
     public void execute() {
-        System.out.println("Enter task details (title, description, priority, due date):");
+        System.out.println("Enter task details:\t [title, description (optional) , due date (optional)]");
         // For brevity, just read a line as 'details' placeholder
         String details = scanner.nextLine();
         controller.createTask(details);
