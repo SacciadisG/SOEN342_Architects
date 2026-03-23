@@ -1,5 +1,6 @@
-package taskmanagement.cli;
+package taskmanagement.cli.tasks;
 
+import taskmanagement.cli.Command;
 import taskmanagement.controller.SystemController;
 import taskmanagement.domain.Task;
 import java.util.List;
@@ -18,7 +19,7 @@ public class SearchTasksCommand implements Command {
     public void execute() {
         System.out.println("""
                 Enter search criteria:
-                (options are "title","range","status","day\")
+                (options are "title","range","status","day")
                 """);
         String criteria = scanner.nextLine();
         List<Task> results = controller.searchTasks(criteria);

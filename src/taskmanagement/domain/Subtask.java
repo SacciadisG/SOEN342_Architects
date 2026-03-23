@@ -3,12 +3,19 @@ package taskmanagement.domain;
 import taskmanagement.enums.StatusEnum;
 
 public class Subtask {
+    private static Long ID = 0L;
     private Long subtaskId;
     private String title;
     private StatusEnum status;
 
-    public Subtask(Long subtaskId, String title, StatusEnum status) {
-        this.subtaskId = subtaskId;
+    public Subtask(String title) {
+        this.subtaskId = ID++;
+        this.title = title;
+        this.status = StatusEnum.OPEN;
+    }
+
+    public Subtask(String title, StatusEnum status) {
+        this.subtaskId = ID++;
         this.title = title;
         this.status = status;
     }
@@ -39,5 +46,6 @@ public class Subtask {
     }
 
     public void updateStatus(StatusEnum status) {
+        this.status = status;
     }
 }

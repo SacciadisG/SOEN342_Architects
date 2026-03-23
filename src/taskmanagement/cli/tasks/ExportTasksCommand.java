@@ -1,5 +1,6 @@
-package taskmanagement.cli;
+package taskmanagement.cli.tasks;
 
+import taskmanagement.cli.Command;
 import taskmanagement.controller.SystemController;
 import java.util.Scanner;
 
@@ -16,7 +17,7 @@ public class ExportTasksCommand implements Command {
     public void execute() {
         System.out.println("Enter file path to export tasks:");
         String filePath = scanner.nextLine();
-        controller.exportTasksToCSV(filePath);
+        controller.exportTasksToCSV(filePath); // IMPLEMENT LOGIC IN CONTROLLER
         System.out.println("Tasks exported to " + filePath);
     }
 
