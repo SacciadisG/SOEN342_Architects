@@ -1,8 +1,10 @@
 package taskmanagement.catalog;
 
 import taskmanagement.domain.Task;
+import taskmanagement.domain.Tag;
+import taskmanagement.domain.Project;
 import taskmanagement.enums.StatusEnum;
-
+import taskmanagement.enums.PriorityEnum;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -108,6 +110,47 @@ public class TaskCatalog {
         return samedayofweektasks;
     }
 
+    public List<Task> filterTasksByTag(Tag tag) {
+        List<Task> tasksWithTag = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.getTags().contains(tag)) {
+                tasksWithTag.add(task);
+            }
+        }
+        return tasksWithTag;
+    }
+
+    public List<Task> filterTasksByProject(Project project) {
+        List<Task> tasksInProject = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.getProject() != null && task.getProject().equals(project)) {
+                tasksInProject.add(task);
+            }
+        }
+        return tasksInProject;
+    }
+
+    public List<Task> filterTasksByPriority(PriorityEnum priority) {
+        List<Task> tasksWithPriority = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.getPriority().equals(priority)) {
+                tasksWithPriority.add(task);
+            }
+        }
+        return tasksWithPriority;
+    }
+
+    public List<Task> searchTasksByKeyword(String keyword) {
+        List<Task> matchingTasks = new ArrayList<>();
+        String lowerKeyword = keyword.toLowerCase();
+        for (Task task : tasks) {
+            if (task.getTitle().toLowerCase().contains(lowerKeyword) ||
+                task.getDescription().toLowerCase().contains(lowerKeyword)) {
+                matchingTasks.add(task);
+            }
+        }
+        return matchingTasks;
+    }
 
 
 }

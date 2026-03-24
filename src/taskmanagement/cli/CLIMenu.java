@@ -16,15 +16,16 @@ public class CLIMenu {
         commands.put(command.getName(), command);
     }
 
+    public Map<String, Command> getCommands() {
+        return commands;
+    }
+
     public void run() {
         while (true) {
             System.out.println("\n--- Personal Task Management System ---");
-            for (Command cmd : commands.values()) {
-                System.out.printf("%s: %s\n", cmd.getName(), cmd.getDescription());
-            }
-            System.out.println("exit: Exit the application");
+            System.out.println("Type 'help' for a list of available commands.");
             System.out.print("Enter command: ");
-            String input = scanner.nextLine().trim();
+            String input = scanner.nextLine().trim().toLowerCase();
             if (input.equalsIgnoreCase("exit")) {
                 System.out.println("Goodbye!");
                 break;
@@ -33,7 +34,7 @@ public class CLIMenu {
             if (cmd != null) {
                 cmd.execute();
             } else {
-                System.out.println("Unknown command. Please try again.");
+                System.out.println("Unknown command. Type 'help' for available commands.");
             }
         }
     }

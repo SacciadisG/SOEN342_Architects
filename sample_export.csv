@@ -1,0 +1,12 @@
+TaskName,Description,Subtask,Status,Priority,DueDate,ProjectName,ProjectDescription,Collaborator,CollaboratorCategory
+Design Database Schema,Design the overall database structure and plan relationships,Database Design Document,OPEN,MEDIUM,2026-04-15,Backend Development,Develop the backend API and services,Alice Smith,senior
+Design Database Schema,Design the overall database structure and plan relationships,Review Design with Team,OPEN,MEDIUM,2026-04-15,Backend Development,Develop the backend API and services,Bob Johnson,intermediate
+Setup CI/CD Pipeline,Configure automated testing and deployment,Setup GitHub Actions,OPEN,HIGH,2026-04-25,DevOps,Infrastructure and deployment setup,Grace Lee,senior
+Setup CI/CD Pipeline,Configure automated testing and deployment,Configure Docker,OPEN,HIGH,2026-04-25,DevOps,Infrastructure and deployment setup,Henry Adams,intermediate
+Frontend Login Page,Build the login UI with form validation,,OPEN,HIGH,2026-04-30,Web Frontend,Build the client-side web application,,
+Implement User Authentication,Implement login and registration functionality,,OPEN,HIGH,2026-05-01,Backend Development,Develop the backend API and services,,
+API Endpoint Development,Create REST endpoints for user operations,Implement GET /users,OPEN,MEDIUM,2026-05-10,Backend Development,Develop the backend API and services,Alice Smith,senior
+API Endpoint Development,Create REST endpoints for user operations,Implement POST /users,OPEN,MEDIUM,2026-05-10,Backend Development,Develop the backend API and services,Charlie Brown,junior
+API Endpoint Development,Create REST endpoints for user operations,Write Unit Tests,OPEN,MEDIUM,2026-05-10,Backend Development,Develop the backend API and services,David White,intermediate
+Create Admin Dashboard,Design and implement admin control panel,Dashboard Layout,OPEN,LOW,2026-06-01,Web Frontend,Build the client-side web application,Eve Davis,senior
+Create Admin Dashboard,Design and implement admin control panel,User Management Panel,OPEN,LOW,2026-06-01,Web Frontend,Build the client-side web application,Frank Miller,junior
