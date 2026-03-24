@@ -20,44 +20,78 @@ public class UpdateTaskCommand implements Command {
 
     @Override
     public void execute() {
-        System.out.println("Enter task ID to update:");
-        Long taskId = Long.parseLong(scanner.nextLine());
-        
-        Task task = controller.getTaskCatalog().findTask(taskId);
-        if (task == null) {
-            System.out.println("Task not found.");
-            return;
+        try {
+            System.out.print("Enter task ID to update: ");
+            Long taskId;
+            try {
+                taskId = Long.parseLong(scanner.nextLine().trim());
+            } catch (NumberFormatException e) {
+                System.out.println("Error: Task ID must be a valid number.");
+                return;
+            }
+            
+            Task task = controller.getTaskCatalog().findTask(taskId);
+            if (task == null) {
+                System.out.println("Error: Task with ID " + taskId + " not found.");
+                return;
+            }
+            
+            System.out.println("Current Task: " + task.getTitle());
+            System.out.print("Enter new title (or leave blank to keep current): ");
+            String newTitle = scanner.nextLine().trim();
+            
+            System.out.print("Enter new description (or leave blank to keep current): ");
+            String newDescription = scanner.nextLine().trim();
+            
+            System.out.print("Enter new priority (LOW, MEDIUM, HIGH) or leave blank: ");
+            String priorityStr = scanner.nextLine().trim();
+            PriorityEnum newPriority = null;
+            if (!priorityStr.isEmpty()) {
+                try {
+                    newPriority = PriorityEnum.valueOf(priorityStr.toUpperCase());
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Error: Invalid priority. Use LOW, MEDIUM, or HIGH.");
+                    return;
+                }
+            }
+            
+            System.out.print("Enter new due date (yyyy-MM-dd) or leave blank: ");
+            String dueDateStr = scanner.nextLine().trim();
+            LocalDate newDueDate = null;
+            if (!dueDateStr.isEmpty()) {
+                try {
+                    newDueDate = LocalDate.parse(dueDateStr);
+                } catch (Exception e) {
+                    System.out.println("Error: Invalid date format. Please use yyyy-MM-dd");
+                    return;
+                }
+            }
+            
+            System.out.print("Enter new status (OPEN, COMPLETED, CANCELLED) or leave blank: ");
+            String statusStr = scanner.nextLine().trim();
+            StatusEnum newStatus = null;
+            if (!statusStr.isEmpty()) {
+                try {
+                    newStatus = StatusEnum.valueOf(statusStr.toUpperCase());
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Error: Invalid status. Use OPEN, COMPLETED, or CANCELLED.");
+                    return;
+                }
+            }
+            
+            task.updateDetails(newTitle.isEmpty() ? null : newTitle,
+                              newDescription.isEmpty() ? null : newDescription,
+                              newPriority,
+                              newDueDate,
+                              newStatus);
+            
+            System.out.println("Task updated successfully.");
+            controller.logTaskAction(taskId, "Task updated - title: " + (newTitle.isEmpty() ? "unchanged" : newTitle) + 
+                                             ", priority: " + (newPriority == null ? "unchanged" : newPriority) +
+                                             ", due date: " + (newDueDate == null ? "unchanged" : newDueDate));
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
         }
-        
-        System.out.println("Current Task: " + task.getTitle());
-        System.out.println("Enter new title (or leave blank to keep current):");
-        String newTitle = scanner.nextLine();
-        
-        System.out.println("Enter new description (or leave blank to keep current):");
-        String newDescription = scanner.nextLine();
-        
-        System.out.println("Enter new priority (LOW, MEDIUM, HIGH) or leave blank:");
-        String priorityStr = scanner.nextLine();
-        PriorityEnum newPriority = priorityStr.isEmpty() ? null : PriorityEnum.valueOf(priorityStr);
-        
-        System.out.println("Enter new due date (YYYY-MM-DD) or leave blank:");
-        String dueDateStr = scanner.nextLine();
-        LocalDate newDueDate = dueDateStr.isEmpty() ? null : LocalDate.parse(dueDateStr);
-        
-        System.out.println("Enter new status (OPEN, COMPLETED, CANCELLED) or leave blank:");
-        String statusStr = scanner.nextLine();
-        StatusEnum newStatus = statusStr.isEmpty() ? null : StatusEnum.valueOf(statusStr);
-        
-        task.updateDetails(newTitle.isEmpty() ? null : newTitle,
-                          newDescription.isEmpty() ? null : newDescription,
-                          newPriority,
-                          newDueDate,
-                          newStatus);
-        
-        System.out.println("Task updated successfully.");
-        controller.logTaskAction(taskId, "Task updated - title: " + (newTitle.isEmpty() ? "unchanged" : newTitle) + 
-                                         ", priority: " + (newPriority == null ? "unchanged" : newPriority) +
-                                         ", due date: " + (newDueDate == null ? "unchanged" : newDueDate));
     }
 
     @Override

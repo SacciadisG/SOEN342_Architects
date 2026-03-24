@@ -6,11 +6,11 @@ import taskmanagement.domain.Project;
 import taskmanagement.domain.Task;
 import java.util.Scanner;
 
-public class AddTaskToProjectCommand implements Command {
+public class RemoveTaskFromProjectCommand implements Command {
     private final SystemController controller;
     private final Scanner scanner;
 
-    public AddTaskToProjectCommand(SystemController controller, Scanner scanner) {
+    public RemoveTaskFromProjectCommand(SystemController controller, Scanner scanner) {
         this.controller = controller;
         this.scanner = scanner;
     }
@@ -48,10 +48,10 @@ public class AddTaskToProjectCommand implements Command {
                 return;
             }
             
-            controller.addTaskToProject(taskId, projectId);
+            controller.removeTaskFromProject(taskId, projectId);
             String projectName = project.getName();
-            System.out.println("Task added to project successfully.");
-            controller.logTaskAction(taskId, "Task added to project: " + projectName);
+            System.out.println("Task removed from project successfully.");
+            controller.logTaskAction(taskId, "Task removed from project: " + projectName);
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
@@ -59,11 +59,11 @@ public class AddTaskToProjectCommand implements Command {
 
     @Override
     public String getName() {
-        return "add-task-to-project";
+        return "remove-task-from-project";
     }
 
     @Override
     public String getDescription() {
-        return "Add a task to a project";
+        return "Remove a task from a project";
     }
 }

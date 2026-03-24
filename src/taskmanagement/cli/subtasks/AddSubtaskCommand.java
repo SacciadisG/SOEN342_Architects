@@ -2,6 +2,7 @@ package taskmanagement.cli.subtasks;
 
 import taskmanagement.cli.Command;
 import taskmanagement.controller.SystemController;
+import taskmanagement.domain.Task;
 import java.util.Scanner;
 
 public class AddSubtaskCommand implements Command {
@@ -15,15 +16,36 @@ public class AddSubtaskCommand implements Command {
 
     @Override
     public void execute() {
-        System.out.println("Enter task ID:");
-        Long taskId = Long.parseLong(scanner.nextLine());
-        
-        System.out.println("Enter subtask title:");
-        String subtaskTitle = scanner.nextLine();
-        
-        controller.addSubtaskToTask(taskId, subtaskTitle);
-        System.out.println("Subtask added successfully.");
-        controller.logTaskAction(taskId, "Subtask added: " + subtaskTitle);
+        try {
+            System.out.print("Enter task ID: ");
+            Long taskId;
+            try {
+                taskId = Long.parseLong(scanner.nextLine().trim());
+            } catch (NumberFormatException e) {
+                System.out.println("Error: Task ID must be a valid number.");
+                return;
+            }
+            
+            Task task = controller.getTaskCatalog().findTask(taskId);
+            if (task == null) {
+                System.out.println("Error: Task with ID " + taskId + " does not exist.");
+                return;
+            }
+            
+            System.out.print("Enter subtask title: ");
+            String subtaskTitle = scanner.nextLine().trim();
+            
+            if (subtaskTitle.isEmpty()) {
+                System.out.println("Error: Subtask title cannot be empty.");
+                return;
+            }
+            
+            controller.addSubtaskToTask(taskId, subtaskTitle);
+            System.out.println("Subtask added successfully.");
+            controller.logTaskAction(taskId, "Subtask added: " + subtaskTitle);
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     @Override

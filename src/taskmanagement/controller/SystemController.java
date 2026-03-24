@@ -14,7 +14,6 @@ import taskmanagement.enums.StatusEnum;
 import taskmanagement.enums.PriorityEnum;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -38,17 +37,31 @@ public class SystemController {
     public Task createTask(String details) {
         String[] given = details.split(",");
         Task newTask = null;
-        if (given.length == 3){
-            newTask = new Task(given[0],given[1],LocalDate.parse(given[2]));
-            taskCatalog.addTask(newTask);
-        }
-        else if (given.length == 2){
-            newTask = new Task(given[0],given[1]);
-            taskCatalog.addTask(newTask);
-        }
-        else if (given.length ==1){
-            newTask = new Task(given[0]);
-            taskCatalog.addTask(newTask);
+        try {
+            if (given.length == 3){
+                String title = given[0].trim();
+                String description = given[1].trim();
+                String dateStr = given[2].trim();
+                LocalDate dueDate = LocalDate.parse(dateStr);
+                newTask = new Task(title, description, dueDate);
+                taskCatalog.addTask(newTask);
+            }
+            else if (given.length == 2){
+                String title = given[0].trim();
+                String description = given[1].trim();
+                newTask = new Task(title, description);
+                taskCatalog.addTask(newTask);
+            }
+            else if (given.length == 1){
+                String title = given[0].trim();
+                if (title.isEmpty()) {
+                    throw new IllegalArgumentException("Task title cannot be empty");
+                }
+                newTask = new Task(title);
+                taskCatalog.addTask(newTask);
+            }
+        } catch (Exception e) {
+            throw e;
         }
         return newTask;
     }
@@ -103,14 +116,16 @@ public class SystemController {
     }
 
     // Project Management Methods
-    public void createProject(String projectName, String projectDescription) {
+    public Project createProject(String projectName, String projectDescription) {
         Project newProject = new Project(projectName, projectDescription);
         projectCatalog.addProject(newProject);
+        return newProject;
     }
 
-    public void createProject(String projectName) {
+    public Project createProject(String projectName) {
         Project newProject = new Project(projectName);
         projectCatalog.addProject(newProject);
+        return newProject;
     }
 
     public void updateProject(Long projectId, String projectName, String projectDescription) {
@@ -204,6 +219,10 @@ public class SystemController {
 
     public List<Task> searchTasksByKeyword(String keyword) {
         return taskCatalog.searchTasksByKeyword(keyword);
+    }
+
+    public List<Task> getAllTasks() {
+        return taskCatalog.displayTasksNoFilter();
     }
 
     // Getters and Setters for Catalogs

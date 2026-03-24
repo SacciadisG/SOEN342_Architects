@@ -18,26 +18,36 @@ public class UpdateTaskStatusCommand implements Command {
 
     @Override
     public void execute() {
-        System.out.println("Enter task ID:");
-        Long taskId = Long.parseLong(scanner.nextLine());
-        
-        Task task = controller.getTaskCatalog().findTask(taskId);
-        if (task == null) {
-            System.out.println("Task not found.");
-            return;
-        }
-        
-        System.out.println("Current status: " + task.getStatus());
-        System.out.println("Enter new status (OPEN, COMPLETED, CANCELLED):");
-        String statusStr = scanner.nextLine();
-        
         try {
-            StatusEnum newStatus = StatusEnum.valueOf(statusStr.toUpperCase());
-            task.updateStatus(newStatus);
-            controller.logTaskAction(taskId, "Status changed to " + newStatus);
-            System.out.println("Task status updated to " + newStatus);
-        } catch (IllegalArgumentException e) {
-            System.out.println("Invalid status. Please use: OPEN, COMPLETED, or CANCELLED");
+            System.out.print("Enter task ID: ");
+            Long taskId;
+            try {
+                taskId = Long.parseLong(scanner.nextLine().trim());
+            } catch (NumberFormatException e) {
+                System.out.println("Error: Task ID must be a valid number.");
+                return;
+            }
+            
+            Task task = controller.getTaskCatalog().findTask(taskId);
+            if (task == null) {
+                System.out.println("Error: Task with ID " + taskId + " not found.");
+                return;
+            }
+            
+            System.out.println("Current status: " + task.getStatus());
+            System.out.print("Enter new status (OPEN, COMPLETED, CANCELLED): ");
+            String statusStr = scanner.nextLine().trim();
+            
+            try {
+                StatusEnum newStatus = StatusEnum.valueOf(statusStr.toUpperCase());
+                task.updateStatus(newStatus);
+                controller.logTaskAction(taskId, "Status changed to " + newStatus);
+                System.out.println("Task status updated to " + newStatus);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Error: Invalid status. Please use: OPEN, COMPLETED, or CANCELLED");
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
         }
     }
 

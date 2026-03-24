@@ -28,9 +28,12 @@ public class Main {
         menu.addCommand(new CreateTaskCommand(controller, scanner));
         menu.addCommand(new UpdateTaskCommand(controller, scanner));
         menu.addCommand(new UpdateTaskStatusCommand(controller, scanner));
-        menu.addCommand(new SearchTasksCommand(controller, scanner));
         menu.addCommand(new ViewTaskDetailsCommand(controller, scanner));
         menu.addCommand(new ViewTasksByPriorityCommand(controller, scanner));
+        menu.addCommand(new ViewAllTasksCommand(controller, scanner));
+        menu.addCommand(new ViewTasksByDateRangeCommand(controller, scanner));
+        menu.addCommand(new ViewTasksByStatusCommand(controller, scanner));
+        menu.addCommand(new ViewTasksByDueDateCommand(controller, scanner));
         menu.addCommand(new SearchTasksByKeywordCommand(controller, scanner));
         menu.addCommand(new ViewTaskHistoryCommand(controller, scanner));
         
@@ -40,10 +43,12 @@ public class Main {
         
         // Subtask commands
         menu.addCommand(new AddSubtaskCommand(controller, scanner));
+        menu.addCommand(new UpdateSubtaskStatusCommand(controller, scanner));
         
         // Project commands
         menu.addCommand(new CreateProjectCommand(controller, scanner));
         menu.addCommand(new AddTaskToProjectCommand(controller, scanner));
+        menu.addCommand(new RemoveTaskFromProjectCommand(controller, scanner));
         menu.addCommand(new ViewTasksByProjectCommand(controller, scanner));
         
         // Import/Export commands
