@@ -23,7 +23,7 @@ public class ImportTasksCommand implements Command {
 
     @Override
     public String getName() {
-        return "import";
+        return "import-tasks";
     }
 
     @Override

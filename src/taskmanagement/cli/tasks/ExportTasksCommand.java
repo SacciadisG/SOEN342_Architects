@@ -23,7 +23,7 @@ public class ExportTasksCommand implements Command {
 
     @Override
     public String getName() {
-        return "export";
+        return "export-tasks";
     }
 
     @Override

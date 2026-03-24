@@ -35,7 +35,7 @@ public class SearchTasksCommand implements Command {
 
     @Override
     public String getName() {
-        return "search";
+        return "search-tasks";
     }
 
     @Override

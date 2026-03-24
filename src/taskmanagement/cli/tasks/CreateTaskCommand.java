@@ -30,7 +30,7 @@ public class CreateTaskCommand implements Command {
 
     @Override
     public String getName() {
-        return "create";
+        return "create-task";
     }
 
     @Override

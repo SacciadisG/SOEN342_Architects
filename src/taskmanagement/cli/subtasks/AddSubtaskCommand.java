@@ -28,7 +28,7 @@ public class AddSubtaskCommand implements Command {
 
     @Override
     public String getName() {
-        return "addsubtask";
+        return "add-subtask";
     }
 
     @Override

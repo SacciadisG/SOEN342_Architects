@@ -45,7 +45,7 @@ public class ViewTasksByTagCommand implements Command {
 
     @Override
     public String getName() {
-        return "view-by-tag";
+        return "view-tasks-by-tag";
     }
 
     @Override

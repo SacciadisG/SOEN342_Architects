@@ -31,7 +31,7 @@ public class AddTaskToProjectCommand implements Command {
 
     @Override
     public String getName() {
-        return "addtasktoproject";
+        return "add-task-to-project";
     }
 
     @Override

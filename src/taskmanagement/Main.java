@@ -49,7 +49,9 @@ public class Main {
         // Import/Export commands
         menu.addCommand(new ExportTasksCommand(controller, scanner));
         menu.addCommand(new ImportTasksCommand(controller, scanner));
-        // Add more commands as needed
+        
+        // Help command
+        menu.addCommand(new HelpCommand(menu.getCommands()));
 
         menu.run();
     }

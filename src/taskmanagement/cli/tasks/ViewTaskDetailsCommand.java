@@ -67,7 +67,7 @@ public class ViewTaskDetailsCommand implements Command {
 
     @Override
     public String getName() {
-        return "viewtask";
+        return "view-task";
     }
 
     @Override

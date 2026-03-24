@@ -43,7 +43,7 @@ public class UpdateTaskStatusCommand implements Command {
 
     @Override
     public String getName() {
-        return "updatestatus";
+        return "update-task-status";
     }
 
     @Override

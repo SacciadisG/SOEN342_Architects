@@ -48,7 +48,7 @@ public class ViewTasksByProjectCommand implements Command {
 
     @Override
     public String getName() {
-        return "view-by-project";
+        return "view-tasks-by-project";
     }
 
     @Override

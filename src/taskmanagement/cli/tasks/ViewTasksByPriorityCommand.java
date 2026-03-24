@@ -44,7 +44,7 @@ public class ViewTasksByPriorityCommand implements Command {
 
     @Override
     public String getName() {
-        return "view-by-priority";
+        return "view-tasks-by-priority";
     }
 
     @Override

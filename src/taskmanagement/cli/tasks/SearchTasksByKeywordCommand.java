@@ -42,7 +42,7 @@ public class SearchTasksByKeywordCommand implements Command {
 
     @Override
     public String getName() {
-        return "search-keyword";
+        return "search-tasks-by-keyword";
     }
 
     @Override

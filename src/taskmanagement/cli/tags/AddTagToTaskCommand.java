@@ -28,7 +28,7 @@ public class AddTagToTaskCommand implements Command {
 
     @Override
     public String getName() {
-        return "addtag";
+        return "add-tag-to-task";
     }
 
     @Override

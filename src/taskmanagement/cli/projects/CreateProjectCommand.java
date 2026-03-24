@@ -32,7 +32,7 @@ public class CreateProjectCommand implements Command {
 
     @Override
     public String getName() {
-        return "createproject";
+        return "create-project";
     }
 
     @Override

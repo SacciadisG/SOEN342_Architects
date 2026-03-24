@@ -45,7 +45,7 @@ public class ViewTaskHistoryCommand implements Command {
 
     @Override
     public String getName() {
-        return "view-history";
+        return "view-task-history";
     }
 
     @Override
