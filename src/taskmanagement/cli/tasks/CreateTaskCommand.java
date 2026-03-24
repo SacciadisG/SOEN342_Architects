@@ -4,7 +4,6 @@ import taskmanagement.cli.Command;
 import taskmanagement.controller.SystemController;
 import taskmanagement.domain.Task;
 import java.util.Scanner;
-import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
 public class CreateTaskCommand implements Command {

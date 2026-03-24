@@ -3,13 +3,8 @@ package taskmanagement.cli.tasks;
 import taskmanagement.cli.Command;
 import taskmanagement.controller.SystemController;
 import taskmanagement.domain.Task;
-import taskmanagement.domain.Tag;
-import taskmanagement.domain.Project;
-import taskmanagement.enums.PriorityEnum;
 import java.util.List;
 import java.util.Scanner;
-import java.util.ArrayList;
-import java.util.Collections;
 
 public class ViewAllTasksCommand implements Command {
     private final SystemController controller;

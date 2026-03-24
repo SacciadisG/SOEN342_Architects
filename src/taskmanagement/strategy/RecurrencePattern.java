@@ -1,7 +1,5 @@
 package taskmanagement.strategy;
 
-import taskmanagement.domain.Task;
-
 import java.time.LocalDate;
 
 public class RecurrencePattern {
@@ -15,8 +13,11 @@ public class RecurrencePattern {
         this.endDate = endDate;
     }
 
-    public Task generateReoccuringTask() {
-        return null;
+    public LocalDate getNextOccurrenceDate(LocalDate lastGeneratedDate) {
+        if (strategy == null) {
+            return null;
+        }
+        return strategy.getNextOccurrenceDate(lastGeneratedDate, endDate);
     }
 
     // Getters and Setters

@@ -5,6 +5,8 @@ import taskmanagement.cli.tasks.*;
 import taskmanagement.cli.projects.*;
 import taskmanagement.cli.tags.*;
 import taskmanagement.cli.subtasks.*;
+import taskmanagement.cli.collaborators.*;
+import taskmanagement.cli.recurring_tasks.*;
 import taskmanagement.controller.SystemController;
 import taskmanagement.catalog.*;
 
@@ -18,7 +20,7 @@ public class Main {
         TaskCatalog taskCatalog = new TaskCatalog();
         ProjectCatalog projectCatalog = new ProjectCatalog();
         ActivityEntryCatalog activityEntryCatalog = new ActivityEntryCatalog();
-        CollaboratorCatalog collaboratorCatalog = new CollaboratorCatalog();
+        CollaboratorCatalog collaboratorCatalog = new CollaboratorCatalog(taskCatalog);
         SystemController controller = new SystemController(taskCatalog, projectCatalog, activityEntryCatalog, collaboratorCatalog);
 
         // Set up CLI menu and commands
@@ -54,6 +56,14 @@ public class Main {
         // Import/Export commands
         menu.addCommand(new ExportTasksCommand(controller, scanner));
         menu.addCommand(new ImportTasksCommand(controller, scanner));
+        
+        // Collaborator commands
+        menu.addCommand(new CreateCollaboratorCommand(controller, scanner));
+        menu.addCommand(new AddCollaboratorToTaskCommand(controller, scanner));
+        menu.addCommand(new AddCollaboratorToProjectCommand(controller, scanner));
+        
+        // Recurring task commands
+        menu.addCommand(new CreateRecurringTaskCommand(controller, scanner));
         
         // Help command
         menu.addCommand(new HelpCommand(menu.getCommands()));

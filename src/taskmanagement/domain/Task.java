@@ -2,6 +2,7 @@ package taskmanagement.domain;
 
 import taskmanagement.enums.PriorityEnum;
 import taskmanagement.enums.StatusEnum;
+import taskmanagement.strategy.RecurrencePattern;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -19,6 +20,8 @@ public class Task {
     private Project project;
     private List<Tag> tags;
     private List<Subtask> subtasks;
+    private RecurrencePattern recurrencePattern;
+    private LocalDate lastGeneratedDate;
 
     public Task(String title, String description, LocalDate dueDate) {
         this.taskId = ID++;
@@ -167,6 +170,26 @@ public class Task {
                 .filter(s -> s.getStatus() == StatusEnum.COMPLETED)
                 .count();
         return (double) completedCount / subtasks.size() * 100;
+    }
+
+    public RecurrencePattern getRecurrencePattern() {
+        return recurrencePattern;
+    }
+
+    public void setRecurrencePattern(RecurrencePattern recurrencePattern) {
+        this.recurrencePattern = recurrencePattern;
+    }
+
+    public LocalDate getLastGeneratedDate() {
+        return lastGeneratedDate;
+    }
+
+    public void setLastGeneratedDate(LocalDate lastGeneratedDate) {
+        this.lastGeneratedDate = lastGeneratedDate;
+    }
+
+    public boolean isRecurring() {
+        return recurrencePattern != null;
     }
 }
 
