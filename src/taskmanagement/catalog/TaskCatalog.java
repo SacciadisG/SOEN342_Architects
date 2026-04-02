@@ -5,18 +5,71 @@ import taskmanagement.domain.Tag;
 import taskmanagement.domain.Project;
 import taskmanagement.enums.StatusEnum;
 import taskmanagement.enums.PriorityEnum;
+import taskmanagement.persistence.DatabaseManager;
+import taskmanagement.persistence.TaskRepository;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.ArrayList;
 
 public class TaskCatalog {
     public List<Task> tasks = new ArrayList<>();
+    private DatabaseManager dbManager;
+    private TaskRepository taskRepository;
+
+    // Constructor without database (for backward compatibility)
+    public TaskCatalog() {
+        this.dbManager = null;
+        this.taskRepository = null;
+    }
+
+    // Constructor with database
+    public TaskCatalog(DatabaseManager dbManager) {
+        this.dbManager = dbManager;
+        this.taskRepository = new TaskRepository(dbManager);
+    }
+
     public void addTask(Task task) {
         tasks.add(task);
+        if (taskRepository != null) {
+            try {
+                taskRepository.saveTask(task);
+            } catch (SQLException e) {
+                System.err.println("Error saving task to database: " + e.getMessage());
+            }
+        }
     }
-    public void deleteTask(Task task){
+
+    public void deleteTask(Task task) {
         tasks.remove(task);
+        if (taskRepository != null) {
+            try {
+                taskRepository.deleteTask(task.getTaskId());
+            } catch (SQLException e) {
+                System.err.println("Error deleting task from database: " + e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * Load all tasks from database
+     */
+    public void loadTasksFromDatabase() throws SQLException {
+        if (taskRepository != null) {
+            tasks = taskRepository.loadAllTasks();
+        }
+    }
+
+    /**
+     * Save all tasks to database
+     */
+    public void saveAllTasksToDatabase() throws SQLException {
+        if (taskRepository != null) {
+            for (Task task : tasks) {
+                taskRepository.saveTask(task);
+            }
+        }
     }
 
     public void updateTask(Long taskId, Object details) {

@@ -9,6 +9,7 @@ import taskmanagement.cli.collaborators.*;
 import taskmanagement.cli.recurring_tasks.*;
 import taskmanagement.controller.SystemController;
 import taskmanagement.catalog.*;
+import taskmanagement.persistence.*;
 
 import java.util.Scanner;
 
@@ -16,12 +17,25 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         
+        // Initialize database
+        DatabaseManager dbManager = new DatabaseManager();
+        
         // Instantiate catalogs and controller
-        TaskCatalog taskCatalog = new TaskCatalog();
-        ProjectCatalog projectCatalog = new ProjectCatalog();
-        ActivityEntryCatalog activityEntryCatalog = new ActivityEntryCatalog();
+        TaskCatalog taskCatalog = new TaskCatalog(dbManager);
+        ProjectCatalog projectCatalog = new ProjectCatalog(dbManager);
+        ActivityEntryCatalog activityEntryCatalog = new ActivityEntryCatalog(dbManager);
         CollaboratorCatalog collaboratorCatalog = new CollaboratorCatalog(taskCatalog);
         SystemController controller = new SystemController(taskCatalog, projectCatalog, activityEntryCatalog, collaboratorCatalog);
+
+        // Load existing data from database
+        try {
+            taskCatalog.loadTasksFromDatabase();
+            projectCatalog.loadProjectsFromDatabase();
+            activityEntryCatalog.loadActivitiesFromDatabase();
+            System.out.println("Data loaded from database successfully.");
+        } catch (Exception e) {
+            System.err.println("Error loading data from database: " + e.getMessage());
+        }
 
         // Set up CLI menu and commands
         CLIMenu menu = new CLIMenu(scanner);
@@ -70,5 +84,15 @@ public class Main {
         menu.addCommand(new HelpCommand(menu.getCommands()));
 
         menu.run();
+        
+        // Save data and close database on exit
+        try {
+            taskCatalog.saveAllTasksToDatabase();
+            projectCatalog.saveAllProjectsToDatabase();
+            System.out.println("Data saved to database.");
+            dbManager.closeConnection();
+        } catch (Exception e) {
+            System.err.println("Error saving data to database: " + e.getMessage());
+        }
     }
 }
