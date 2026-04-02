@@ -18,6 +18,7 @@ import taskmanagement.enums.StatusEnum;
 import taskmanagement.enums.PriorityEnum;
 import taskmanagement.strategy.RecurrencePattern;
 import taskmanagement.strategy.RecurrenceStrategy;
+import taskmanagement.gateway.ICalendarGateway;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -660,5 +661,96 @@ public class SystemController {
 
         // Add collaborator to project (implicit through project's task assignments)
         // This is handled at task level when adding collaborator to task in the project
+    }
+
+    // Calendar Export Methods (using Gateway Pattern)
+    /**
+     * Exports a single task to iCalendar format
+     * @param taskId The task to export
+     * @param filePath The output file path for the .ics file
+     */
+    public void exportTaskToCalendar(Long taskId, String filePath) {
+        Task task = taskCatalog.findTask(taskId);
+        if (task == null) {
+            throw new IllegalArgumentException("Task not found with ID: " + taskId);
+        }
+        if (task.getDueDate() == null) {
+            throw new IllegalArgumentException("Task must have a due date to be exported to calendar");
+        }
+
+        ICalendarGateway gateway = new ICalendarGateway();
+        List<Task> tasksToExport = new ArrayList<>();
+        tasksToExport.add(task);
+        String icsContent = gateway.tasksToICalendarFile(tasksToExport);
+        
+        writeICalendarFile(filePath, icsContent);
+    }
+
+    /**
+     * Exports all tasks in a project to iCalendar format
+     * @param projectId The project whose tasks to export
+     * @param filePath The output file path for the .ics file
+     */
+    public void exportProjectTasksToCalendar(Long projectId, String filePath) {
+        Project project = projectCatalog.findProject(projectId);
+        if (project == null) {
+            throw new IllegalArgumentException("Project not found with ID: " + projectId);
+        }
+
+        // Filter tasks that belong to this project and have due dates
+        List<Task> projectTasks = new ArrayList<>();
+        for (Task task : project.getTasks()) {
+            if (task.getDueDate() != null) {
+                projectTasks.add(task);
+            }
+        }
+
+        if (projectTasks.isEmpty()) {
+            throw new IllegalArgumentException("No tasks with due dates found in project: " + project.getName());
+        }
+
+        ICalendarGateway gateway = new ICalendarGateway();
+        String icsContent = gateway.tasksToICalendarFile(projectTasks);
+        
+        writeICalendarFile(filePath, icsContent);
+    }
+
+    /**
+     * Exports a filtered list of tasks to iCalendar format
+     * @param filteredTasks The list of tasks to export
+     * @param filePath The output file path for the .ics file
+     */
+    public void exportFilteredTasksToCalendar(List<Task> filteredTasks, String filePath) {
+        // Filter out tasks without due dates
+        List<Task> tasksWithDueDates = new ArrayList<>();
+        for (Task task : filteredTasks) {
+            if (task.getDueDate() != null) {
+                tasksWithDueDates.add(task);
+            }
+        }
+
+        if (tasksWithDueDates.isEmpty()) {
+            throw new IllegalArgumentException("No tasks with due dates found in filtered list");
+        }
+
+        ICalendarGateway gateway = new ICalendarGateway();
+        String icsContent = gateway.tasksToICalendarFile(tasksWithDueDates);
+        
+        writeICalendarFile(filePath, icsContent);
+    }
+
+    /**
+     * Writes iCalendar content to a .ics file
+     * @param filePath The output file path
+     * @param icsContent The iCalendar formatted content
+     */
+    private void writeICalendarFile(String filePath, String icsContent) {
+        try {
+            Files.write(Paths.get(filePath), icsContent.getBytes(), StandardOpenOption.CREATE, 
+                       StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
+            System.out.println("Tasks exported successfully to calendar file: " + filePath);
+        } catch (IOException e) {
+            throw new RuntimeException("Error writing calendar file: " + e.getMessage());
+        }
     }
 }

@@ -56,6 +56,7 @@ public class Main {
         // Import/Export commands
         menu.addCommand(new ExportTasksCommand(controller, scanner));
         menu.addCommand(new ImportTasksCommand(controller, scanner));
+        menu.addCommand(new ExportTaskToCalendarCommand(controller, scanner));
         
         // Collaborator commands
         menu.addCommand(new CreateCollaboratorCommand(controller, scanner));
