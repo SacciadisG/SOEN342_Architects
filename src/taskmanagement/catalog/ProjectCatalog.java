@@ -1,12 +1,30 @@
 package taskmanagement.catalog;
 
 import taskmanagement.domain.Project;
+import taskmanagement.persistence.DatabaseManager;
+import taskmanagement.persistence.ProjectRepository;
+import taskmanagement.persistence.TaskRepository;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.ArrayList;
 
 public class ProjectCatalog {
     public List<Project> projects = new ArrayList<>();
+    private DatabaseManager dbManager;
+    private ProjectRepository projectRepository;
+
+    // Constructor without database (for backward compatibility)
+    public ProjectCatalog() {
+        this.dbManager = null;
+        this.projectRepository = null;
+    }
+
+    // Constructor with database
+    public ProjectCatalog(DatabaseManager dbManager) {
+        this.dbManager = dbManager;
+        this.projectRepository = new ProjectRepository(dbManager, new TaskRepository(dbManager));
+    }
     
     public void addProject(Project project) {
         // Check if project name already exists
@@ -20,6 +38,13 @@ public class ProjectCatalog {
         
         if (!exists) {
             projects.add(project);
+            if (projectRepository != null) {
+                try {
+                    projectRepository.saveProject(project);
+                } catch (SQLException e) {
+                    System.err.println("Error saving project to database: " + e.getMessage());
+                }
+            }
         } else {
             System.out.println("Project with name '" + project.getName() + "' already exists. Project not added.");
         }
@@ -77,5 +102,32 @@ public class ProjectCatalog {
 
     public void deleteProject(Long projectId) {
         projects.removeIf(p -> p.getProjectId() == projectId);
+        if (projectRepository != null) {
+            try {
+                projectRepository.deleteProject(projectId);
+            } catch (SQLException e) {
+                System.err.println("Error deleting project from database: " + e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * Load all projects from database
+     */
+    public void loadProjectsFromDatabase() throws SQLException {
+        if (projectRepository != null) {
+            projects = projectRepository.loadAllProjects();
+        }
+    }
+
+    /**
+     * Save all projects to database
+     */
+    public void saveAllProjectsToDatabase() throws SQLException {
+        if (projectRepository != null) {
+            for (Project project : projects) {
+                projectRepository.saveProject(project);
+            }
+        }
     }
 }

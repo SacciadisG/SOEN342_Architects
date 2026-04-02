@@ -1,6 +1,7 @@
 package taskmanagement.domain;
 
 public class Tag {
+    private Long tagId;
     private String name;
 
     public Tag(String name) {
@@ -8,6 +9,14 @@ public class Tag {
     }
 
     // Getters and Setters
+    public Long getTagId() {
+        return tagId;
+    }
+
+    public void setTagId(Long tagId) {
+        this.tagId = tagId;
+    }
+
     public String getName() {
         return name;
     }
