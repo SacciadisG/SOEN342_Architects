@@ -36,7 +36,11 @@ public class TaskRepository {
             pstmt.setString(5, task.getDueDate() != null ? task.getDueDate().toString() : null);
             pstmt.setString(6, task.getPriority().toString());
             pstmt.setString(7, task.getStatus().toString());
-            pstmt.setLong(8, task.getProject() != null ? task.getProject().getProjectId() : null);
+            if (task.getProject() != null) {
+                pstmt.setLong(8, task.getProject().getProjectId());
+            } else {
+                pstmt.setNull(8, Types.INTEGER);
+            }
             pstmt.executeUpdate();
         }
 
